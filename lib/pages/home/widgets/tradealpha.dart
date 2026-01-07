@@ -1,146 +1,197 @@
-import 'dart:developer';
-
-import 'package:alpha/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
+import 'package:get/get.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class TradeAlpha extends StatefulWidget {
+import '../../../controllers/theme_controller.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/typography.dart';
+import '../../../theme/spacing.dart';
+import '../../../components/buttons.dart';
+
+/// Alpha Protocol - Trade Alpha Section
+///
+/// Section promoting Alpha Runes trading on Luminex.
+class TradeAlpha extends StatelessWidget {
   const TradeAlpha({super.key});
 
-  @override
-  State<TradeAlpha> createState() => _TradeAlphaState();
-}
+  static const String _luminexUrl = 'https://luminex.io';
 
-class _TradeAlphaState extends State<TradeAlpha> {
-  void _themeChanged() {
-    log("Theme changed");
-    setState(() {}); // Trigger a rebuild if necessary
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    themeManager.addListener(_themeChanged);
+  Future<void> _launchLuminex() async {
+    final uri = Uri.parse(_luminexUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isDesktop = MediaQuery.of(context).size.width > 600;
-    double screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth > AppSpacing.tabletMax;
 
-    // Set different image sizes for mobile and desktop
-    double imageHeight = isDesktop ? 40.h : 30.h; // Larger on mobile
-    double imageWidth = imageHeight * 4 / 3; // Maintain 4:3 aspect ratio
+    return GetX<ThemeController>(
+      builder: (theme) {
+        final isDark = theme.effectiveIsDarkMode;
 
-    // Use a ternary operator to decide between Row (desktop) and Column (mobile)
-    Widget content = isDesktop
-        ? Row(
-            crossAxisAlignment: CrossAxisAlignment
-                .center, // Align items vertically in the center
-            children: [
-              Expanded(
-                child: imageContainer(imageHeight, imageWidth),
-              ),
-              Expanded(
-                child: textAndButton(),
-              ),
-            ],
-          )
-        : Column(
-            children: [
-              imageContainer(imageHeight, imageWidth),
-              textAndButton(),
-            ],
-          );
-
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: screenHeight *
-              0.5, // Limit the height to 50% of the screen height
-        ),
-        child: content,
-      ),
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: isDesktop ? 80 : 24,
+            vertical: isDesktop ? 80 : 48,
+          ),
+          color: AppColors.surface(isDark),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1000),
+            child: isDesktop
+                ? _DesktopLayout(
+                    isDark: isDark,
+                    onTapLuminex: _launchLuminex,
+                  )
+                : _MobileLayout(
+                    isDark: isDark,
+                    onTapLuminex: _launchLuminex,
+                  ),
+          ),
+        );
+      },
     );
   }
+}
 
-  Widget imageContainer(double height, double width) {
-    return Center(
-      child: Container(
-        height: height,
-        width: width, // Specify width to maintain aspect ratio
-        decoration: BoxDecoration(
-          color: Colors.grey[300], // Placeholder color for the image
-          borderRadius: BorderRadius.circular(12), // Rounded corners
-        ),
-      ),
-    );
-  }
+class _DesktopLayout extends StatelessWidget {
+  const _DesktopLayout({
+    required this.isDark,
+    required this.onTapLuminex,
+  });
 
-  Widget textAndButton() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  final bool isDark;
+  final VoidCallback onTapLuminex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
+        // Image placeholder
+        Expanded(
+          child: _ImagePlaceholder(isDark: isDark),
+        ),
+        const SizedBox(width: 64),
+        // Content
+        Expanded(
+          child: _Content(isDark: isDark, onTapLuminex: onTapLuminex),
+        ),
+      ],
+    );
+  }
+}
+
+class _MobileLayout extends StatelessWidget {
+  const _MobileLayout({
+    required this.isDark,
+    required this.onTapLuminex,
+  });
+
+  final bool isDark;
+  final VoidCallback onTapLuminex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _ImagePlaceholder(isDark: isDark),
+        const SizedBox(height: 32),
+        _Content(isDark: isDark, onTapLuminex: onTapLuminex),
+      ],
+    );
+  }
+}
+
+class _ImagePlaceholder extends StatelessWidget {
+  const _ImagePlaceholder({required this.isDark});
+
+  final bool isDark;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 4 / 3,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.card(isDark),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.border(isDark)),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.image_outlined,
+            size: 64,
+            color: AppColors.textMuted(isDark),
+          ),
+        ),
+      ),
+    )
+        .animate()
+        .fadeIn(duration: 600.ms)
+        .slideX(begin: -0.1, end: 0);
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    required this.isDark,
+    required this.onTapLuminex,
+  });
+
+  final bool isDark;
+  final VoidCallback onTapLuminex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'ALPHA RUNES',
+          style: AppTypography.displaySmall(isDark: isDark).copyWith(
+            letterSpacing: 4,
+          ),
+          textAlign: TextAlign.center,
+        )
+            .animate()
+            .fadeIn(duration: 600.ms, delay: 100.ms),
+
+        const SizedBox(height: 16),
+
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: AppTypography.bodyLarge(isDark: isDark),
             children: [
-              Text(
-                'ALPHA RUNES',
-                style: GoogleFonts.cinzel(
-                    fontWeight: FontWeight.w900, fontSize: 8.sp),
-                textAlign: TextAlign.center,
-              ),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: GoogleFonts.cinzel(
-                    fontSize: 6.sp,
-                    color:
-                        themeManager.isDarkMode ? Colors.white : Colors.black,
-                  ),
-                  children: const <TextSpan>[
-                    TextSpan(
-                        text: 'BUY, SELL, AND TRADE BITCOIN INSCRIBED',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                        )),
-                    TextSpan(
-                        text: ' ALPHA RUNES ',
-                        style: TextStyle(fontWeight: FontWeight.w800)),
-                    TextSpan(
-                        text: 'ON LUMINEX',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                        )),
-                  ],
+              const TextSpan(text: 'BUY, SELL, AND TRADE BITCOIN INSCRIBED '),
+              TextSpan(
+                text: 'ALPHA RUNES',
+                style: AppTypography.bodyLarge(isDark: isDark).copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
                 ),
               ),
+              const TextSpan(text: ' ON LUMINEX'),
             ],
           ),
-        ),
-        TextButton(
-          onPressed: () {},
-          child: Container(
-            width: 20.w,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: themeManager.isDarkMode ? Colors.white : Colors.black),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              "LUMINEX DEX",
-              style: GoogleFonts.cinzel(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 6.sp,
-                  color: themeManager.isDarkMode ? Colors.white : Colors.black),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
+        )
+            .animate()
+            .fadeIn(duration: 600.ms, delay: 200.ms),
+
+        const SizedBox(height: 32),
+
+        SecondaryButton(
+          text: 'LUMINEX DEX',
+          onPressed: onTapLuminex,
+          icon: Icons.open_in_new,
+        )
+            .animate()
+            .fadeIn(duration: 600.ms, delay: 300.ms),
       ],
     );
   }

@@ -1,10 +1,18 @@
-import 'package:alpha/pages/develop/widgets/build_future.dart';
-import 'package:alpha/pages/develop/widgets/decentralized.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha/widgets/drawer.dart';
 import '../../../widgets/appbar.dart';
 import '../../../widgets/footer.dart';
+import '../widgets/dev_hero.dart';
+import '../widgets/path_selector.dart';
+import '../widgets/quickstart_section.dart';
+import '../widgets/tools_grid.dart';
+import '../widgets/tutorials_section.dart';
+import '../widgets/community_section.dart';
 
+/// Develop Page - Developer Onboarding
+///
+/// Primary entry point for developers building on Alpha Protocol.
+/// Features path selection, quickstart code, tools, tutorials, and community.
 class Develop extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -14,23 +22,20 @@ class Develop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(scaffoldKey: _scaffoldKey),
-      ),
+      appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
       drawer: const CustomDrawer(),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return const SingleChildScrollView(
-            child: Column(
-              children: [
-                BuildFutureWidget(),
-                DecentralizedInfoWidget(),
-                Footer(),
-              ],
-            ),
-          );
-        },
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            DevHero(),
+            PathSelector(),
+            QuickstartSection(),
+            ToolsGrid(),
+            TutorialsSection(),
+            CommunitySection(),
+            Footer(),
+          ],
+        ),
       ),
     );
   }

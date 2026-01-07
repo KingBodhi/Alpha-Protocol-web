@@ -17,10 +17,7 @@ class _SpectrumScreenState extends State<SpectrumScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(scaffoldKey: _scaffoldKey),
-      ),
+      appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
       drawer: const CustomDrawer(),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {

@@ -1,148 +1,210 @@
-import 'dart:developer';
-
-import 'package:alpha/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
+import 'package:get/get.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class FixTogetherWidget extends StatefulWidget {
+import '../../../controllers/theme_controller.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/typography.dart';
+import '../../../theme/spacing.dart';
+import '../../../constants/assets.dart';
+
+/// Learn Page - Fix Together Section
+class FixTogetherWidget extends StatelessWidget {
   const FixTogetherWidget({super.key});
 
   @override
-  State<FixTogetherWidget> createState() => _FixTogetherWidgetState();
-}
-
-class _FixTogetherWidgetState extends State<FixTogetherWidget> {
-  void _themeChanged() {
-    log("Theme changed");
-    setState(() {}); // Trigger a rebuild if necessary
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    themeManager.addListener(_themeChanged);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth > AppSpacing.tabletMax;
+
+    return GetX<ThemeController>(
+      builder: (theme) {
+        final isDark = theme.effectiveIsDarkMode;
+
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: isDesktop ? 80 : 24,
+            vertical: isDesktop ? 80 : 48,
+          ),
+          color: AppColors.surface(isDark),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // Main content goes here
             children: [
-              Padding(
-                padding: EdgeInsets.all(8.0.sp),
-                child: Text(
-                  "TOGETHER, WE WILL FIX IT",
-                  style: GoogleFonts.cinzel(
-                      fontWeight: FontWeight.w900, fontSize: 12.sp),
+              // Header
+              Text(
+                'TOGETHER, WE WILL',
+                style: AppTypography.headlineLarge(isDark: isDark).copyWith(
+                  letterSpacing: 4,
+                ),
+                textAlign: TextAlign.center,
+              )
+                  .animate()
+                  .fadeIn(duration: 600.ms),
+
+              const SizedBox(height: 8),
+
+              Text(
+                'F I X  I T',
+                style: (isDesktop
+                        ? AppTypography.displayMedium(isDark: isDark)
+                        : AppTypography.displaySmall(isDark: isDark))
+                    .copyWith(
+                  letterSpacing: isDesktop ? 16 : 10,
+                  color: AppColors.primary,
+                ),
+                textAlign: TextAlign.center,
+              )
+                  .animate()
+                  .fadeIn(duration: 600.ms, delay: 100.ms),
+
+              SizedBox(height: isDesktop ? 64 : 40),
+
+              // Feature Cards
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 900),
+                child: Column(
+                  children: [
+                    _FeatureItem(
+                      imageIndex: 1,
+                      title: 'PEER TO PEER NETWORKING',
+                      description:
+                          'ENABLING DEVICES TO CONNECT DIRECTLY AND EXCHANGE DATA AS PEERS',
+                      isDark: isDark,
+                      isDesktop: isDesktop,
+                    ),
+                    SizedBox(height: isDesktop ? 48 : 32),
+                    _FeatureItem(
+                      imageIndex: 2,
+                      title: 'CROSS-PLATFORM SUPPORT',
+                      description:
+                          'EXPAND COVERAGE TO COMMON DEVICE TYPES\niOS • ANDROID • WINDOWS • MAC OS • LINUX',
+                      isDark: isDark,
+                      isDesktop: isDesktop,
+                      reversed: true,
+                    ),
+                    SizedBox(height: isDesktop ? 48 : 32),
+                    _FeatureItem(
+                      imageIndex: 3,
+                      title: 'TOKENIZED REWARDS',
+                      description: 'INCENTIVIZE NETWORK PARTICIPATION',
+                      isDark: isDark,
+                      isDesktop: isDesktop,
+                    ),
+                    SizedBox(height: isDesktop ? 48 : 32),
+                    _FeatureItem(
+                      imageIndex: 4,
+                      title: 'LOCALIZED MICROGRIDS',
+                      description: 'PRIVATE AND PUBLIC USE NETWORKS',
+                      isDark: isDark,
+                      isDesktop: isDesktop,
+                      reversed: true,
+                    ),
+                    SizedBox(height: isDesktop ? 48 : 32),
+                    _FeatureItem(
+                      imageIndex: 5,
+                      title: 'GLOBAL NETWORK',
+                      description:
+                          'CONNECT LOCALIZED MICROGRIDS INTO A GLOBAL DECENTRALIZED NETWORK',
+                      isDark: isDark,
+                      isDesktop: isDesktop,
+                    ),
+                  ],
                 ),
               ),
-              LearnImageWidget(
-                imagePath: themeManager.isDarkMode
-                    ? "assets/learn_1_dark.png"
-                    : "assets/learn_1.png",
-              ),
-              const SecondaryHeading(
-                text:
-                    "ENABLING DEVICES TO CONNECT DIRECTLY\nAND EXCHANGE DATA AS PEERS",
-              ),
-              const SecondaryHeading(
-                text: "PEER TO PEER NETWORKING",
-                isBold: true,
-              ),
-              LearnImageWidget(
-                imagePath: themeManager.isDarkMode
-                    ? "assets/learn_2_dark.png"
-                    : "assets/learn_2.png",
-              ),
-              const SecondaryHeading(
-                text:
-                    "EXPAND COVERAGE TO COMMON DEVICE TYPES\nIOS. ANDROID. WINDOWS. MAC OS. LINUX",
-              ),
-              LearnImageWidget(
-                imagePath: themeManager.isDarkMode
-                    ? "assets/learn_3_dark.png"
-                    : "assets/learn_3.png",
-              ),
-              const SecondaryHeading(
-                text: "TOKENIZED REWARD\nINCENTIVIZE NETWORK PARTICIPATION",
-              ),
-              LearnImageWidget(
-                imagePath: themeManager.isDarkMode
-                    ? "assets/learn_4_dark.png"
-                    : "assets/learn_4.png",
-              ),
-              const SecondaryHeading(
-                text: "LOCALIZED MICROGRIDS\nPRIVATE AND PUBLIC USE NETWORKS",
-              ),
-              LearnImageWidget(
-                imagePath: themeManager.isDarkMode
-                    ? "assets/learn_5_dark.png"
-                    : "assets/learn_5.png",
-              ),
-              const SecondaryHeading(
-                text:
-                    "CONNECT LOCALIZED MICROGRIDS\nGLOBAL DECENTRALIZED NETWORK",
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 2.0.sp),
-              ),
-              // Add more content here as needed
             ],
           ),
-        ),
+        );
+      },
+    );
+  }
+}
+
+class _FeatureItem extends StatelessWidget {
+  const _FeatureItem({
+    required this.imageIndex,
+    required this.title,
+    required this.description,
+    required this.isDark,
+    required this.isDesktop,
+    this.reversed = false,
+  });
+
+  final int imageIndex;
+  final String title;
+  final String description;
+  final bool isDark;
+  final bool isDesktop;
+  final bool reversed;
+
+  @override
+  Widget build(BuildContext context) {
+    final imageWidget = Container(
+      constraints: BoxConstraints(
+        maxWidth: isDesktop ? 200 : 150,
+        maxHeight: isDesktop ? 200 : 150,
       ),
-    );
-  }
-}
-
-class SecondaryHeading extends StatelessWidget {
-  const SecondaryHeading({
-    super.key,
-    this.isBold = false,
-    required this.text,
-  });
-  final bool isBold;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.cinzel(
-          fontWeight: isBold ? FontWeight.w800 : FontWeight.w400,
-          fontSize: 8.sp),
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class LearnImageWidget extends StatelessWidget {
-  const LearnImageWidget({
-    super.key,
-    required this.imagePath,
-  });
-  final String imagePath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 2.0.sp, bottom: 2.0.sp),
-      child: SizedBox(
-        height: 20.h,
-        width: 15.w,
-        child: Image(
-          fit: BoxFit.contain,
-          image: AssetImage(
-            imagePath,
+      child: Image.asset(
+        AppAssets.getLearnImage(imageIndex, isDark),
+        fit: BoxFit.contain,
+        errorBuilder: (_, __, ___) => Container(
+          width: isDesktop ? 200 : 150,
+          height: isDesktop ? 200 : 150,
+          decoration: BoxDecoration(
+            color: AppColors.card(isDark),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Icon(
+            Icons.image_outlined,
+            size: 48,
+            color: AppColors.textMuted(isDark),
           ),
         ),
       ),
     );
+
+    final textWidget = Expanded(
+      child: Column(
+        crossAxisAlignment:
+            isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: AppTypography.titleLarge(isDark: isDark).copyWith(
+              color: AppColors.primary,
+              letterSpacing: 2,
+            ),
+            textAlign: isDesktop ? TextAlign.start : TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            description,
+            style: AppTypography.bodyMedium(isDark: isDark),
+            textAlign: isDesktop ? TextAlign.start : TextAlign.center,
+          ),
+        ],
+      ),
+    );
+
+    if (!isDesktop) {
+      return Column(
+        children: [
+          imageWidget,
+          const SizedBox(height: 16),
+          textWidget,
+        ],
+      )
+          .animate()
+          .fadeIn(duration: 600.ms)
+          .slideY(begin: 0.1, end: 0);
+    }
+
+    return Row(
+      children: reversed
+          ? [textWidget, const SizedBox(width: 48), imageWidget]
+          : [imageWidget, const SizedBox(width: 48), textWidget],
+    )
+        .animate()
+        .fadeIn(duration: 600.ms)
+        .slideX(begin: reversed ? 0.1 : -0.1, end: 0);
   }
 }

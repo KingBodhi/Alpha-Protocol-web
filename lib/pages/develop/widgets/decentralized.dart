@@ -1,105 +1,182 @@
-import 'dart:developer';
-
-import 'package:alpha/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
+import 'package:get/get.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class DecentralizedInfoWidget extends StatefulWidget {
+import '../../../controllers/theme_controller.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/typography.dart';
+import '../../../theme/spacing.dart';
+
+/// Develop Page - Decentralized Info Section
+class DecentralizedInfoWidget extends StatelessWidget {
   const DecentralizedInfoWidget({super.key});
 
   @override
-  State<DecentralizedInfoWidget> createState() =>
-      _DecentralizedInfoWidgetState();
-}
-
-class _DecentralizedInfoWidgetState extends State<DecentralizedInfoWidget> {
-  Color boxColor = themeManager.isDarkMode
-      ? const Color.fromARGB(121, 34, 33, 33)
-      : const Color.fromRGBO(232, 228, 228, 1.0);
-  void _themeChanged() {
-    log("Theme changed");
-    setState(() {
-      themeManager.themeMode == ThemeMode.dark
-          ? boxColor = const Color.fromARGB(121, 34, 33, 33)
-          : boxColor = const Color.fromRGBO(232, 228, 228, 1.0);
-    }); // Trigger a rebuild if necessary
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    themeManager.addListener(_themeChanged);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth > AppSpacing.tabletMax;
+
+    return GetX<ThemeController>(
+      builder: (theme) {
+        final isDark = theme.effectiveIsDarkMode;
+
+        return Container(
           width: double.infinity,
-          child: Column(
-            children: [
-              DecentralizedWidget(
-                title: "DECENTRALIZED WEB NODES",
-                subtitle:
-                    "HOST PRIVATE NETWORKS AND\nCONNECT THE DECENTRALIZED WEB",
-                boxColor: boxColor,
-              ),
-              DecentralizedWidget(
-                title: "DECENTRALIZED IDENTIFIERS",
-                subtitle: "OWN AND CONTROL YOUR IDENTITIES",
-                boxColor: boxColor,
-              ),
-              DecentralizedWidget(
-                title: "DECENTRALIZED APPLICATIONS",
-                subtitle: "OWN AND CONTROL YOUR IDENTITIES",
-                boxColor: boxColor,
-              )
-            ],
-          )),
+          padding: EdgeInsets.symmetric(
+            horizontal: isDesktop ? 80 : 24,
+            vertical: isDesktop ? 80 : 48,
+          ),
+          color: AppColors.surface(isDark),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1000),
+            child: Column(
+              children: [
+                _FeatureCard(
+                  icon: Icons.hub_outlined,
+                  title: 'DECENTRALIZED WEB NODES',
+                  description:
+                      'HOST PRIVATE NETWORKS AND CONNECT THE DECENTRALIZED WEB',
+                  isDark: isDark,
+                  isDesktop: isDesktop,
+                  index: 0,
+                ),
+                SizedBox(height: isDesktop ? 24 : 16),
+                _FeatureCard(
+                  icon: Icons.fingerprint_outlined,
+                  title: 'DECENTRALIZED IDENTIFIERS',
+                  description: 'OWN AND CONTROL YOUR IDENTITIES',
+                  isDark: isDark,
+                  isDesktop: isDesktop,
+                  index: 1,
+                ),
+                SizedBox(height: isDesktop ? 24 : 16),
+                _FeatureCard(
+                  icon: Icons.apps_outlined,
+                  title: 'DECENTRALIZED APPLICATIONS',
+                  description: 'BUILD AND DEPLOY APPS ON THE DECENTRALIZED WEB',
+                  isDark: isDark,
+                  isDesktop: isDesktop,
+                  index: 2,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
 
-class DecentralizedWidget extends StatelessWidget {
-  const DecentralizedWidget({
-    super.key,
+class _FeatureCard extends StatefulWidget {
+  const _FeatureCard({
+    required this.icon,
     required this.title,
-    required this.subtitle,
-    required this.boxColor,
+    required this.description,
+    required this.isDark,
+    required this.isDesktop,
+    required this.index,
   });
+
+  final IconData icon;
   final String title;
-  final String subtitle;
-  final Color boxColor;
+  final String description;
+  final bool isDark;
+  final bool isDesktop;
+  final int index;
+
+  @override
+  State<_FeatureCard> createState() => _FeatureCardState();
+}
+
+class _FeatureCardState extends State<_FeatureCard> {
+  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 10.0.sp),
-      child: Container(
-          height: 40.h,
-          width: 50.w,
-          decoration: BoxDecoration(
-            color: boxColor,
-            borderRadius: BorderRadius.circular(20),
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: double.infinity,
+        padding: EdgeInsets.all(widget.isDesktop ? 40 : 24),
+        decoration: BoxDecoration(
+          color: AppColors.card(widget.isDark),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _isHovered
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : AppColors.border(widget.isDark),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                textAlign: TextAlign.center,
-                title,
-                style: GoogleFonts.cinzel(
-                    fontWeight: FontWeight.w900, fontSize: 8.sp),
+          boxShadow: _isHovered
+              ? [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ]
+              : null,
+        ),
+        child: Row(
+          children: [
+            // Icon
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: widget.isDesktop ? 80 : 60,
+              height: widget.isDesktop ? 80 : 60,
+              decoration: BoxDecoration(
+                color: _isHovered
+                    ? AppColors.primary.withValues(alpha: 0.2)
+                    : AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16),
               ),
-              Text(
-                subtitle,
-                style: GoogleFonts.cinzel(
-                    fontWeight: FontWeight.w400, fontSize: 6.sp),
-                textAlign: TextAlign.center,
+              child: Icon(
+                widget.icon,
+                size: widget.isDesktop ? 40 : 32,
+                color: AppColors.primary,
               ),
-            ],
-          )),
-    );
+            ),
+
+            SizedBox(width: widget.isDesktop ? 32 : 20),
+
+            // Text
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: (widget.isDesktop
+                            ? AppTypography.titleLarge(isDark: widget.isDark)
+                            : AppTypography.titleMedium(isDark: widget.isDark))
+                        .copyWith(
+                      letterSpacing: 2,
+                      color: _isHovered ? AppColors.primary : null,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.description,
+                    style: AppTypography.bodyMedium(isDark: widget.isDark),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    )
+        .animate()
+        .fadeIn(
+          duration: 600.ms,
+          delay: (200 * widget.index).ms,
+        )
+        .slideY(
+          begin: 0.1,
+          end: 0,
+          duration: 600.ms,
+          delay: (200 * widget.index).ms,
+        );
   }
 }

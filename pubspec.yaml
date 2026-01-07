@@ -1,21 +1,37 @@
 name: alpha
-description: "Where the Web Begins"
-publish_to: 'none'  # Prevents accidental publishing to pub.dev
+description: "Where the Web Begins - Alpha Protocol Network"
+publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.0-282.1.beta <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: 
-  url_launcher: 
-  sizer:
-  google_fonts:
-  page_transition:
-  
+
+  # UI & Design
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0
+  sizer: ^2.0.15
+  responsive_sizer: ^3.3.1
+
+  # State Management
+  get: ^4.6.6
+
+  # Navigation & Transitions
+  page_transition: ^2.1.0
+
+  # Storage
+  shared_preferences: ^2.2.2
+
+  # Utilities
+  url_launcher: ^6.2.5
+
+  # Animations
+  flutter_animate: ^4.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -25,10 +41,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-  # Example for adding fonts
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
