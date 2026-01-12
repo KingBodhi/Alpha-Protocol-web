@@ -51,9 +51,10 @@ class _PrimaryButtonState extends State<PrimaryButton> {
       cursor: widget.onPressed != null
           ? SystemMouseCursors.click
           : SystemMouseCursors.basic,
-      child: AnimatedContainer(
+      child: AnimatedScale(
+        scale: _isHovered ? 1.02 : 1.0,
         duration: AppSpacing.durationFast,
-        transform: Matrix4.identity()..scale(_isHovered ? 1.02 : 1.0),
+        curve: Curves.easeOut,
         child: SizedBox(
           width: widget.isExpanded ? double.infinity : widget.width,
           height: widget.height ?? 48,
@@ -64,7 +65,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
                   _isHovered ? AppColors.primaryDark : AppColors.primary,
               foregroundColor: Colors.white,
               elevation: _isHovered ? 8 : 0,
-              shadowColor: AppColors.primary.withOpacity(0.4),
+              shadowColor: AppColors.primary.withValues(alpha: 0.4),
               shape: RoundedRectangleBorder(
                 borderRadius: AppSpacing.borderRadiusRound,
               ),
@@ -150,9 +151,10 @@ class _SecondaryButtonState extends State<SecondaryButton> {
           cursor: widget.onPressed != null
               ? SystemMouseCursors.click
               : SystemMouseCursors.basic,
-          child: AnimatedContainer(
+          child: AnimatedScale(
+            scale: _isHovered ? 1.02 : 1.0,
             duration: AppSpacing.durationFast,
-            transform: Matrix4.identity()..scale(_isHovered ? 1.02 : 1.0),
+            curve: Curves.easeOut,
             child: SizedBox(
               width: widget.isExpanded ? double.infinity : widget.width,
               height: widget.height ?? 48,
@@ -346,7 +348,7 @@ class _AppIconButtonState extends State<AppIconButton> {
               decoration: BoxDecoration(
                 color: widget.showBackground || _isHovered
                     ? (isDark ? AppColors.darkCard : AppColors.lightCard)
-                        .withOpacity(_isHovered ? 1 : 0.5)
+                        .withValues(alpha: _isHovered ? 1 : 0.5)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(widget.size / 2),
               ),
@@ -470,7 +472,7 @@ class AnimatedCtaButton extends StatelessWidget {
         .animate(onPlay: (controller) => controller.repeat())
         .shimmer(
           duration: 2000.ms,
-          color: AppColors.primaryLight.withOpacity(0.3),
+          color: AppColors.primaryLight.withValues(alpha: 0.3),
         )
         .animate()
         .fadeIn(duration: 600.ms)

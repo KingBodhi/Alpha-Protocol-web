@@ -39,9 +39,7 @@ class HowItWorksSection extends StatelessWidget {
                     letterSpacing: 4,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 const SizedBox(height: 8),
 
@@ -52,9 +50,7 @@ class HowItWorksSection extends StatelessWidget {
                     color: AppColors.primary,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
                 SizedBox(height: isDesktop ? 64 : 40),
 
@@ -67,7 +63,8 @@ class HowItWorksSection extends StatelessWidget {
                               number: 1,
                               icon: Icons.download_rounded,
                               title: 'Download',
-                              description: 'Get the installer for your platform',
+                              description:
+                                  'Get the installer for your platform',
                               time: '1 min',
                               isDark: isDark,
                             ),
@@ -167,7 +164,7 @@ class HowItWorksSection extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.schedule_rounded,
                         size: 20,
                         color: AppColors.primary,
@@ -175,15 +172,14 @@ class HowItWorksSection extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         'Running in under 10 minutes',
-                        style: AppTypography.labelLarge(isDark: isDark).copyWith(
+                        style:
+                            AppTypography.labelLarge(isDark: isDark).copyWith(
                           color: AppColors.primary,
                         ),
                       ),
                     ],
                   ),
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 800.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 800.ms),
               ],
             ),
           ),
@@ -282,9 +278,7 @@ class _StepItem extends StatelessWidget {
           ),
         ),
       ],
-    )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: (200 * number).ms);
+    ).animate().fadeIn(duration: 600.ms, delay: (200 * number).ms);
   }
 }
 

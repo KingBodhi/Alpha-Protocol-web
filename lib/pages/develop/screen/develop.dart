@@ -24,17 +24,20 @@ class Develop extends StatelessWidget {
       key: _scaffoldKey,
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
       drawer: const CustomDrawer(),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            DevHero(),
-            PathSelector(),
-            QuickstartSection(),
-            ToolsGrid(),
-            TutorialsSection(),
-            CommunitySection(),
-            Footer(),
-          ],
+      body: const SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              DevHero(),
+              PathSelector(),
+              QuickstartSection(),
+              ToolsGrid(),
+              TutorialsSection(),
+              CommunitySection(),
+              Footer(),
+            ],
+          ),
         ),
       ),
     );

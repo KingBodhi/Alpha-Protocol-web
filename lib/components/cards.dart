@@ -55,45 +55,57 @@ class _AppCardState extends State<AppCard> {
     return GetX<ThemeController>(
       builder: (theme) {
         final isDark = theme.effectiveIsDarkMode;
-        final bgColor =
-            widget.backgroundColor ?? (isDark ? AppColors.darkCard : AppColors.lightCard);
+        final bgColor = widget.backgroundColor ??
+            (isDark ? AppColors.darkCard : AppColors.lightCard);
         final border = widget.borderColor ??
             (isDark ? AppColors.darkBorder : AppColors.lightBorder);
 
         return MouseRegion(
-          onEnter: widget.enableHover ? (_) => setState(() => _isHovered = true) : null,
-          onExit: widget.enableHover ? (_) => setState(() => _isHovered = false) : null,
-          cursor: widget.onTap != null ? SystemMouseCursors.click : MouseCursor.defer,
+          onEnter: widget.enableHover
+              ? (_) => setState(() => _isHovered = true)
+              : null,
+          onExit: widget.enableHover
+              ? (_) => setState(() => _isHovered = false)
+              : null,
+          cursor: widget.onTap != null
+              ? SystemMouseCursors.click
+              : MouseCursor.defer,
           child: GestureDetector(
             onTap: widget.onTap,
-            child: AnimatedContainer(
+            child: AnimatedScale(
+              scale: _isHovered && widget.enableHover ? 1.02 : 1.0,
               duration: AppSpacing.durationFast,
-              width: widget.width,
-              height: widget.height,
-              margin: widget.margin,
-              padding: widget.padding ?? AppSpacing.card,
-              transform: Matrix4.identity()
-                ..scale(_isHovered && widget.enableHover ? 1.02 : 1.0),
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: widget.borderRadius ?? AppSpacing.borderRadiusLg,
-                border: Border.all(
-                  color: _isHovered ? AppColors.primary.withOpacity(0.5) : border,
-                  width: _isHovered ? 1.5 : 1,
+              curve: Curves.easeOut,
+              child: AnimatedContainer(
+                duration: AppSpacing.durationFast,
+                width: widget.width,
+                height: widget.height,
+                margin: widget.margin,
+                padding: widget.padding ?? AppSpacing.card,
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius:
+                      widget.borderRadius ?? AppSpacing.borderRadiusLg,
+                  border: Border.all(
+                    color: _isHovered
+                        ? AppColors.primary.withValues(alpha: 0.5)
+                        : border,
+                    width: _isHovered ? 1.5 : 1,
+                  ),
+                  boxShadow: _isHovered
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.15),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ]
+                      : (widget.elevation > 0
+                          ? AppColors.shadow(isDark)
+                          : null),
                 ),
-                boxShadow: _isHovered
-                    ? [
-                        BoxShadow(
-                          color: AppColors.primary.withOpacity(0.15),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ]
-                    : (widget.elevation > 0
-                        ? AppColors.shadow(isDark)
-                        : null),
+                child: widget.child,
               ),
-              child: widget.child,
             ),
           ),
         );
@@ -411,36 +423,44 @@ class _GlassCardState extends State<GlassCard> {
         return MouseRegion(
           onEnter: (_) => setState(() => _isHovered = true),
           onExit: (_) => setState(() => _isHovered = false),
-          cursor: widget.onTap != null ? SystemMouseCursors.click : MouseCursor.defer,
+          cursor: widget.onTap != null
+              ? SystemMouseCursors.click
+              : MouseCursor.defer,
           child: GestureDetector(
             onTap: widget.onTap,
-            child: AnimatedContainer(
+            child: AnimatedScale(
+              scale: _isHovered ? 1.02 : 1.0,
               duration: AppSpacing.durationFast,
-              width: widget.width,
-              height: widget.height,
-              margin: widget.margin,
-              padding: widget.padding ?? AppSpacing.card,
-              transform: Matrix4.identity()..scale(_isHovered ? 1.02 : 1.0),
-              decoration: BoxDecoration(
-                color: (isDark ? Colors.white : Colors.black)
-                    .withOpacity(_isHovered ? widget.opacity + 0.05 : widget.opacity),
-                borderRadius: AppSpacing.borderRadiusLg,
-                border: Border.all(
-                  color: (isDark ? Colors.white : Colors.black)
-                      .withOpacity(_isHovered ? 0.3 : 0.15),
-                  width: 1,
+              curve: Curves.easeOut,
+              child: AnimatedContainer(
+                duration: AppSpacing.durationFast,
+                width: widget.width,
+                height: widget.height,
+                margin: widget.margin,
+                padding: widget.padding ?? AppSpacing.card,
+                decoration: BoxDecoration(
+                  color: (isDark ? Colors.white : Colors.black).withValues(
+                    alpha: _isHovered ? widget.opacity + 0.05 : widget.opacity,
+                  ),
+                  borderRadius: AppSpacing.borderRadiusLg,
+                  border: Border.all(
+                    color: (isDark ? Colors.white : Colors.black).withValues(
+                      alpha: _isHovered ? 0.3 : 0.15,
+                    ),
+                    width: 1,
+                  ),
+                  boxShadow: _isHovered
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ]
+                      : null,
                 ),
-                boxShadow: _isHovered
-                    ? [
-                        BoxShadow(
-                          color: AppColors.primary.withOpacity(0.1),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ]
-                    : null,
+                child: widget.child,
               ),
-              child: widget.child,
             ),
           ),
         );

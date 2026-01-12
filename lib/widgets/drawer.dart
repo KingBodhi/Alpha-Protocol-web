@@ -35,7 +35,7 @@ class CustomDrawer extends StatelessWidget {
                 Container(
                   height: 1,
                   margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                  color: AppColors.primary.withOpacity(0.3),
+                  color: AppColors.primary.withValues(alpha: 0.3),
                 ),
 
                 AppSpacing.gapVMd,
@@ -86,13 +86,15 @@ class CustomDrawer extends StatelessWidget {
                                   vertical: AppSpacing.xxs,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.2),
+                                  color:
+                                      AppColors.primary.withValues(alpha: 0.2),
                                   borderRadius: AppSpacing.borderRadiusFull,
                                 ),
                                 child: Text(
                                   'BETA',
-                                  style: AppTypography.labelSmall(isDark: isDark)
-                                      .copyWith(color: AppColors.primary),
+                                  style:
+                                      AppTypography.labelSmall(isDark: isDark)
+                                          .copyWith(color: AppColors.primary),
                                 ),
                               ),
                               AppSpacing.gapHSm,
@@ -181,10 +183,7 @@ class _DrawerHeader extends StatelessWidget {
           ),
         ],
       ),
-    )
-        .animate()
-        .fadeIn(duration: 400.ms)
-        .slideY(begin: -0.2, end: 0);
+    ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.2, end: 0);
   }
 }
 
@@ -225,14 +224,14 @@ class _DrawerItemState extends State<_DrawerItem> {
         margin: const EdgeInsets.only(bottom: AppSpacing.xs),
         decoration: BoxDecoration(
           color: isActive
-              ? AppColors.primary.withOpacity(0.15)
+              ? AppColors.primary.withValues(alpha: 0.15)
               : (_isHovered
-                  ? AppColors.card(widget.isDark).withOpacity(0.5)
+                  ? AppColors.card(widget.isDark).withValues(alpha: 0.5)
                   : Colors.transparent),
           borderRadius: AppSpacing.borderRadius,
           border: Border.all(
             color: isActive
-                ? AppColors.primary.withOpacity(0.3)
+                ? AppColors.primary.withValues(alpha: 0.3)
                 : Colors.transparent,
             width: 1,
           ),
@@ -264,10 +263,10 @@ class _DrawerItemState extends State<_DrawerItem> {
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.2),
+                    color: AppColors.primary.withValues(alpha: 0.2),
                     borderRadius: AppSpacing.borderRadiusFull,
                   ),
-                  child: Text(
+                  child: const Text(
                     'BETA',
                     style: TextStyle(
                       fontSize: 9,
@@ -339,9 +338,7 @@ class _DrawerFooter extends StatelessWidget {
           ),
         ],
       ),
-    )
-        .animate()
-        .fadeIn(duration: 400.ms, delay: 300.ms);
+    ).animate().fadeIn(duration: 400.ms, delay: 300.ms);
   }
 }
 

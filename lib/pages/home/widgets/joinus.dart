@@ -51,9 +51,7 @@ class JoinUs extends StatelessWidget {
                     letterSpacing: 2,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 const SizedBox(height: 32),
 
@@ -154,14 +152,10 @@ class _EmailSignupState extends State<_EmailSignup> {
             style: AppTypography.bodyMedium(isDark: widget.isDark).copyWith(
               color: AppColors.success,
             ),
-          )
-              .animate()
-              .fadeIn(duration: 300.ms),
+          ).animate().fadeIn(duration: 300.ms),
         ],
       ],
-    )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 200.ms);
+    ).animate().fadeIn(duration: 600.ms, delay: 200.ms);
   }
 
   Widget _buildTextField() {
@@ -237,22 +231,19 @@ class _SocialLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 16,
+      runSpacing: 12,
       children: _socialLinks.map((social) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: _SocialButton(
-            icon: social['icon'] as IconData,
-            label: social['label'] as String,
-            onTap: () => _launchUrl(social['url'] as String),
-            isDark: isDark,
-          ),
+        return _SocialButton(
+          icon: social['icon'] as IconData,
+          label: social['label'] as String,
+          onTap: () => _launchUrl(social['url'] as String),
+          isDark: isDark,
         );
       }).toList(),
-    )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 400.ms);
+    ).animate().fadeIn(duration: 600.ms, delay: 400.ms);
   }
 }
 

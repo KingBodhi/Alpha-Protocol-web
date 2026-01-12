@@ -20,11 +20,14 @@ class _AlphaGoScreenState extends State<AlphaGoScreen> {
       drawer: const CustomDrawer(),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return const SingleChildScrollView(
-            child: Column(
-              children: [
-                BetaAccessWidget(),
-              ],
+          return const SafeArea(
+            top: false,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  BetaAccessWidget(),
+                ],
+              ),
             ),
           );
         },

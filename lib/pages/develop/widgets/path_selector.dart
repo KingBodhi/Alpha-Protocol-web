@@ -40,9 +40,7 @@ class PathSelector extends StatelessWidget {
                     letterSpacing: 4,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 SizedBox(height: isDesktop ? 64 : 40),
 
@@ -58,7 +56,7 @@ class PathSelector extends StatelessWidget {
                               description:
                                   'Build decentralized frontends, integrate with wallets, '
                                   'and connect to the network.',
-                              features: [
+                              features: const [
                                 'JavaScript/TypeScript SDKs',
                                 'React/Vue components',
                                 'Web3 wallet integration',
@@ -77,7 +75,7 @@ class PathSelector extends StatelessWidget {
                               description:
                                   'Build core protocol features, smart contracts, '
                                   'and low-level infrastructure.',
-                              features: [
+                              features: const [
                                 'Rust/Go SDKs',
                                 'Contract templates',
                                 'Testing framework',
@@ -97,7 +95,7 @@ class PathSelector extends StatelessWidget {
                               description:
                                   'Run infrastructure, deploy validators, and earn '
                                   'rewards for securing the network.',
-                              features: [
+                              features: const [
                                 'Docker deployment',
                                 'Monitoring tools',
                                 'Staking guides',
@@ -117,7 +115,7 @@ class PathSelector extends StatelessWidget {
                             title: 'WEB DEVELOPER',
                             description:
                                 'Build decentralized frontends and integrate wallets.',
-                            features: [
+                            features: const [
                               'JavaScript/TypeScript SDKs',
                               'React/Vue components',
                               'Web3 integration',
@@ -133,7 +131,7 @@ class PathSelector extends StatelessWidget {
                             title: 'PROTOCOL DEVELOPER',
                             description:
                                 'Build core features, contracts, and infrastructure.',
-                            features: [
+                            features: const [
                               'Rust/Go SDKs',
                               'Contract templates',
                               'Testing framework',
@@ -148,9 +146,8 @@ class PathSelector extends StatelessWidget {
                             icon: Icons.link_outlined,
                             emoji: '🔗',
                             title: 'NODE OPERATOR',
-                            description:
-                                'Run infrastructure and earn rewards.',
-                            features: [
+                            description: 'Run infrastructure and earn rewards.',
+                            features: const [
                               'Docker deployment',
                               'Monitoring tools',
                               'Staking guides',
@@ -285,9 +282,8 @@ class _PathCardState extends State<_PathCard> {
                 widget.title,
                 style: AppTypography.titleLarge(isDark: widget.isDark).copyWith(
                   letterSpacing: 2,
-                  color: _isHovered || widget.highlight
-                      ? AppColors.primary
-                      : null,
+                  color:
+                      _isHovered || widget.highlight ? AppColors.primary : null,
                 ),
               ),
 
@@ -308,7 +304,7 @@ class _PathCardState extends State<_PathCard> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           size: 16,
                           color: AppColors.primary,
@@ -335,7 +331,7 @@ class _PathCardState extends State<_PathCard> {
                     ),
                   ),
                   const SizedBox(width: 4),
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward,
                     size: 16,
                     color: AppColors.primary,

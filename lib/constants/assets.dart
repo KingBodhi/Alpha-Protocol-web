@@ -10,7 +10,7 @@ class AppAssets {
   // ============================================
 
   static const String _base = 'assets';
-  static const String _images = '$_base';
+  static const String _images = _base;
 
   // ============================================
   // LOGOS
@@ -61,7 +61,8 @@ class AppAssets {
   static const String omegaWirelessIcon = '$_images/omega_wireless_icon.png';
 
   /// Omega Wireless icon (dark)
-  static const String omegaWirelessIconDark = '$_images/omega_wireless_icon_dark.png';
+  static const String omegaWirelessIconDark =
+      '$_images/omega_wireless_icon_dark.png';
 
   /// Spectrum icon (light)
   static const String spectrumIcon = '$_images/spectrum_icon.png';
@@ -106,7 +107,13 @@ class AppAssets {
   /// Get theme-appropriate learn image
   static String getLearnImage(int index, bool isDark) {
     final lightImages = [learn1, learn2, learn3, learn4, learn5];
-    final darkImages = [learn1Dark, learn2Dark, learn3Dark, learn4Dark, learn5Dark];
+    final darkImages = [
+      learn1Dark,
+      learn2Dark,
+      learn3Dark,
+      learn4Dark,
+      learn5Dark
+    ];
     final safeIndex = (index - 1).clamp(0, 4);
     return isDark ? darkImages[safeIndex] : lightImages[safeIndex];
   }

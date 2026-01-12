@@ -77,7 +77,7 @@ class _RequirementsCardState extends State<_RequirementsCard> {
           // Header
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.computer_outlined,
                 color: AppColors.primary,
                 size: 24,
@@ -85,7 +85,8 @@ class _RequirementsCardState extends State<_RequirementsCard> {
               const SizedBox(width: 12),
               Text(
                 'SYSTEM REQUIREMENTS',
-                style: AppTypography.titleMedium(isDark: widget.isDark).copyWith(
+                style:
+                    AppTypography.titleMedium(isDark: widget.isDark).copyWith(
                   letterSpacing: 2,
                 ),
               ),
@@ -103,7 +104,7 @@ class _RequirementsCardState extends State<_RequirementsCard> {
                     AnimatedRotation(
                       turns: _isExpanded ? 0.5 : 0,
                       duration: const Duration(milliseconds: 200),
-                      child: Icon(
+                      child: const Icon(
                         Icons.expand_more,
                         color: AppColors.primary,
                         size: 20,
@@ -154,9 +155,7 @@ class _RequirementsCardState extends State<_RequirementsCard> {
           ),
         ],
       ),
-    )
-        .animate()
-        .fadeIn(duration: 600.ms);
+    ).animate().fadeIn(duration: 600.ms);
   }
 }
 
@@ -370,9 +369,7 @@ class _ResourcesRow extends StatelessWidget {
           isDark: isDark,
         ),
       ],
-    )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 200.ms);
+    ).animate().fadeIn(duration: 600.ms, delay: 200.ms);
   }
 }
 
@@ -429,7 +426,8 @@ class _ResourceLinkState extends State<_ResourceLink> {
               const SizedBox(width: 8),
               Text(
                 widget.label,
-                style: AppTypography.labelMedium(isDark: widget.isDark).copyWith(
+                style:
+                    AppTypography.labelMedium(isDark: widget.isDark).copyWith(
                   color: _isHovered
                       ? AppColors.primary
                       : AppColors.textColor(widget.isDark),

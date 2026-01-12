@@ -10,9 +10,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
 
   # UI & Design
   cupertino_icons: ^1.0.6
+  font_awesome_flutter: ^10.6.0
   google_fonts: ^6.1.0
   sizer: ^2.0.15
   responsive_sizer: ^3.3.1

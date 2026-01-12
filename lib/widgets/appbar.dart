@@ -44,14 +44,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: Row(
             children: [
-              // Menu button
-              _IconButton(
-                icon: Icons.menu,
-                onTap: () => scaffoldKey.currentState?.openDrawer(),
-                isDark: isDark,
-              ),
-
-              const SizedBox(width: 12),
+              // Menu button (mobile/tablet only)
+              if (!isWideScreen) ...[
+                _IconButton(
+                  icon: Icons.menu,
+                  onTap: () => scaffoldKey.currentState?.openDrawer(),
+                  isDark: isDark,
+                ),
+                const SizedBox(width: 12),
+              ],
 
               // Logo
               _LogoButton(isDark: isDark),
@@ -116,9 +117,8 @@ class _IconButtonState extends State<_IconButton> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: _isHovered
-                ? AppColors.card(widget.isDark)
-                : Colors.transparent,
+            color:
+                _isHovered ? AppColors.card(widget.isDark) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(

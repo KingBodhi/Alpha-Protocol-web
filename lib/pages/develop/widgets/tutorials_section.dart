@@ -39,9 +39,7 @@ class TutorialsSection extends StatelessWidget {
                     letterSpacing: 4,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 const SizedBox(height: 12),
 
@@ -51,9 +49,7 @@ class TutorialsSection extends StatelessWidget {
                     color: AppColors.textMuted(isDark),
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
                 SizedBox(height: isDesktop ? 48 : 32),
 
@@ -218,21 +214,20 @@ class TutorialsSection extends StatelessWidget {
                     children: [
                       Text(
                         'View all tutorials',
-                        style: AppTypography.labelLarge(isDark: isDark).copyWith(
+                        style:
+                            AppTypography.labelLarge(isDark: isDark).copyWith(
                           color: AppColors.primary,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward,
                         size: 18,
                         color: AppColors.primary,
                       ),
                     ],
                   ),
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 600.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 600.ms),
               ],
             ),
           ),
@@ -303,9 +298,7 @@ class _DifficultyColumn extends StatelessWidget {
               ),
             ],
           ),
-        )
-            .animate()
-            .fadeIn(duration: 600.ms, delay: (200 * index).ms),
+        ).animate().fadeIn(duration: 600.ms, delay: (200 * index).ms),
 
         const SizedBox(height: 16),
 
@@ -422,9 +415,7 @@ class _TutorialItemState extends State<_TutorialItem> {
           ),
         ),
       ),
-    )
-        .animate()
-        .fadeIn(
+    ).animate().fadeIn(
           duration: 600.ms,
           delay: (100 * widget.animationIndex).ms,
         );

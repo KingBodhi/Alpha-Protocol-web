@@ -20,11 +20,14 @@ class _OmegaWirelessScreenState extends State<OmegaWirelessScreen> {
       drawer: const CustomDrawer(),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return const SingleChildScrollView(
-            child: Column(
-              children: [
-                OmegaWidget(),
-              ],
+          return const SafeArea(
+            top: false,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  OmegaWidget(),
+                ],
+              ),
             ),
           );
         },

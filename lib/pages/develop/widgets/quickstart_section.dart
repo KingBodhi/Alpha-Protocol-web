@@ -40,9 +40,7 @@ class QuickstartSection extends StatelessWidget {
                     letterSpacing: 4,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 const SizedBox(height: 12),
 
@@ -52,9 +50,7 @@ class QuickstartSection extends StatelessWidget {
                     color: AppColors.textMuted(isDark),
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
                 SizedBox(height: isDesktop ? 48 : 32),
 
@@ -182,9 +178,8 @@ print(f"Transaction: {tx.hash}")''',
   ];
 
   void _copyCode() {
-    final code = _tabs[_selectedTab]['install']! +
-        '\n\n' +
-        _tabs[_selectedTab]['code']!;
+    final code = '${_tabs[_selectedTab]['install']!}\n\n'
+        '${_tabs[_selectedTab]['code']!}';
     Clipboard.setData(ClipboardData(text: code));
     setState(() => _copied = true);
     Future.delayed(const Duration(seconds: 2), () {
@@ -196,9 +191,8 @@ print(f"Transaction: {tx.hash}")''',
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.isDark
-            ? const Color(0xFF1A1A1A)
-            : const Color(0xFF1E1E1E),
+        color:
+            widget.isDark ? const Color(0xFF1A1A1A) : const Color(0xFF1E1E1E),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: AppColors.border(widget.isDark),
@@ -220,39 +214,51 @@ print(f"Transaction: {tx.hash}")''',
             ),
             child: Row(
               children: [
-                ..._tabs.asMap().entries.map((entry) {
-                  final isSelected = entry.key == _selectedTab;
-                  return GestureDetector(
-                    onTap: () => setState(() => _selectedTab = entry.key),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary.withValues(alpha: 0.2)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: isSelected
-                            ? Border.all(
-                                color: AppColors.primary.withValues(alpha: 0.5),
-                              )
-                            : null,
-                      ),
-                      child: Text(
-                        entry.value['label']!,
-                        style: AppTypography.labelMedium(isDark: true).copyWith(
-                          color: isSelected
-                              ? AppColors.primary
-                              : Colors.grey[500],
-                        ),
-                      ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        for (final entry in _tabs.asMap().entries)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: GestureDetector(
+                              onTap: () =>
+                                  setState(() => _selectedTab = entry.key),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: entry.key == _selectedTab
+                                      ? AppColors.primary.withValues(alpha: 0.2)
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: entry.key == _selectedTab
+                                      ? Border.all(
+                                          color: AppColors.primary
+                                              .withValues(alpha: 0.5),
+                                        )
+                                      : null,
+                                ),
+                                child: Text(
+                                  entry.value['label']!,
+                                  style: AppTypography.labelMedium(isDark: true)
+                                      .copyWith(
+                                    color: entry.key == _selectedTab
+                                        ? AppColors.primary
+                                        : Colors.grey[500],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                  );
-                }),
-                const Spacer(),
-                // Copy button
+                  ),
+                ),
+                const SizedBox(width: 12),
                 GestureDetector(
                   onTap: _copyCode,
                   child: Container(
@@ -270,6 +276,7 @@ print(f"Transaction: {tx.hash}")''',
                       ),
                     ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           _copied ? Icons.check : Icons.copy_outlined,
@@ -279,7 +286,8 @@ print(f"Transaction: {tx.hash}")''',
                         const SizedBox(width: 6),
                         Text(
                           _copied ? 'Copied!' : 'Copy',
-                          style: AppTypography.labelSmall(isDark: true).copyWith(
+                          style:
+                              AppTypography.labelSmall(isDark: true).copyWith(
                             color: _copied ? Colors.green : Colors.grey[500],
                           ),
                         ),
@@ -302,19 +310,21 @@ print(f"Transaction: {tx.hash}")''',
                 ),
               ),
             ),
-            child: Row(
-              children: [
-                Text(
-                  '\$',
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 14,
-                    color: AppColors.primary,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    '\$',
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      color: AppColors.primary,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: SelectableText(
+                  const SizedBox(width: 12),
+                  SelectableText(
                     _tabs[_selectedTab]['install']!,
                     style: const TextStyle(
                       fontFamily: 'monospace',
@@ -322,28 +332,29 @@ print(f"Transaction: {tx.hash}")''',
                       color: Colors.white,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
           // Code Content
           Padding(
             padding: const EdgeInsets.all(20),
-            child: SelectableText(
-              _tabs[_selectedTab]['code']!,
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 13,
-                height: 1.6,
-                color: Colors.grey[300],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SelectableText(
+                _tabs[_selectedTab]['code']!,
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 13,
+                  height: 1.6,
+                  color: Colors.grey[300],
+                ),
               ),
             ),
           ),
         ],
       ),
-    )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 200.ms);
+    ).animate().fadeIn(duration: 600.ms, delay: 200.ms);
   }
 }

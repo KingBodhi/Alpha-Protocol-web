@@ -7,6 +7,7 @@ import '../../../theme/colors.dart';
 import '../../../theme/typography.dart';
 import '../../../theme/spacing.dart';
 import '../../../components/buttons.dart';
+import '../../../utils/download_helper.dart';
 
 /// Alpha Protocol - Network Snapshot Section
 ///
@@ -14,10 +15,21 @@ import '../../../components/buttons.dart';
 class Snapshot extends StatelessWidget {
   const Snapshot({super.key});
 
+  Future<void> _handleDownload(
+    BuildContext context,
+    DownloadTarget target,
+  ) async {
+    await DownloadHelper.launchWithFallback(
+      context,
+      platformOverride: target.platform,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isDesktop = screenWidth > AppSpacing.tabletMax;
+    final downloadTarget = DownloadHelper.currentTarget();
 
     return GetX<ThemeController>(
       builder: (theme) {
@@ -30,8 +42,22 @@ class Snapshot extends StatelessWidget {
             vertical: isDesktop ? 80 : 48,
           ),
           child: isDesktop
-              ? _DesktopLayout(isDark: isDark)
-              : _MobileLayout(isDark: isDark),
+              ? _DesktopLayout(
+                  isDark: isDark,
+                  downloadTarget: downloadTarget,
+                  onDownload: () => _handleDownload(
+                    context,
+                    downloadTarget,
+                  ),
+                )
+              : _MobileLayout(
+                  isDark: isDark,
+                  downloadTarget: downloadTarget,
+                  onDownload: () => _handleDownload(
+                    context,
+                    downloadTarget,
+                  ),
+                ),
         );
       },
     );
@@ -40,9 +66,15 @@ class Snapshot extends StatelessWidget {
 
 /// Desktop layout with side-by-side arrangement
 class _DesktopLayout extends StatelessWidget {
-  const _DesktopLayout({required this.isDark});
+  const _DesktopLayout({
+    required this.isDark,
+    required this.downloadTarget,
+    required this.onDownload,
+  });
 
   final bool isDark;
+  final DownloadTarget downloadTarget;
+  final VoidCallback onDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -62,35 +94,25 @@ class _DesktopLayout extends StatelessWidget {
                   style: AppTypography.headlineLarge(isDark: isDark).copyWith(
                     letterSpacing: 4,
                   ),
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
-
+                ).animate().fadeIn(duration: 600.ms),
                 Text(
                   'SNAPSHOT',
                   style: AppTypography.displayMedium(isDark: isDark).copyWith(
                     color: AppColors.primary,
                     letterSpacing: 6,
                   ),
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms),
-
+                ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
                 const SizedBox(height: 24),
-
                 Text(
                   'Real-time statistics from the Alpha Protocol decentralized network.',
                   style: AppTypography.bodyLarge(isDark: isDark),
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 200.ms),
-
+                ).animate().fadeIn(duration: 600.ms, delay: 200.ms),
                 const SizedBox(height: 32),
-
-                SecondaryButton(
-                  text: 'BECOME A NODE',
-                  onPressed: () {},
-                  icon: Icons.hub_outlined,
+                PrimaryButton(
+                  text: downloadTarget.buttonLabel,
+                  icon: downloadTarget.icon,
+                  width: 260,
+                  onPressed: onDownload,
                 )
                     .animate()
                     .fadeIn(duration: 600.ms, delay: 300.ms)
@@ -114,9 +136,15 @@ class _DesktopLayout extends StatelessWidget {
 
 /// Mobile layout with stacked arrangement
 class _MobileLayout extends StatelessWidget {
-  const _MobileLayout({required this.isDark});
+  const _MobileLayout({
+    required this.isDark,
+    required this.downloadTarget,
+    required this.onDownload,
+  });
 
   final bool isDark;
+  final DownloadTarget downloadTarget;
+  final VoidCallback onDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +156,7 @@ class _MobileLayout extends StatelessWidget {
           style: AppTypography.headlineMedium(isDark: isDark).copyWith(
             letterSpacing: 4,
           ),
-        )
-            .animate()
-            .fadeIn(duration: 600.ms),
+        ).animate().fadeIn(duration: 600.ms),
 
         const SizedBox(height: 4),
 
@@ -140,9 +166,7 @@ class _MobileLayout extends StatelessWidget {
             color: AppColors.primary,
             letterSpacing: 6,
           ),
-        )
-            .animate()
-            .fadeIn(duration: 600.ms, delay: 100.ms),
+        ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
         const SizedBox(height: 32),
 
@@ -152,13 +176,12 @@ class _MobileLayout extends StatelessWidget {
         const SizedBox(height: 32),
 
         // CTA
-        SecondaryButton(
-          text: 'BECOME A NODE',
-          onPressed: () {},
-          icon: Icons.hub_outlined,
-        )
-            .animate()
-            .fadeIn(duration: 600.ms, delay: 500.ms),
+        PrimaryButton(
+          text: downloadTarget.buttonLabel,
+          icon: downloadTarget.icon,
+          isExpanded: true,
+          onPressed: onDownload,
+        ).animate().fadeIn(duration: 600.ms, delay: 500.ms),
       ],
     );
   }
@@ -193,26 +216,42 @@ class _StatsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isDesktop = screenWidth > AppSpacing.tabletMax;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double width = constraints.maxWidth;
+        int columns;
+        if (width >= 840) {
+          columns = 3;
+        } else if (width >= 520) {
+          columns = 2;
+        } else {
+          columns = 1;
+        }
 
-    return Wrap(
-      spacing: 16,
-      runSpacing: 16,
-      alignment: WrapAlignment.center,
-      children: stats.asMap().entries.map((entry) {
-        return SizedBox(
-          width: isDesktop ? 180 : (screenWidth - 80) / 2,
-          child: _StatCard(
-            title: entry.value['title'],
-            value: entry.value['value'],
-            suffix: entry.value['suffix'],
-            icon: entry.value['icon'],
-            isDark: isDark,
-            index: entry.key,
-          ),
+        const double spacing = 16;
+        final double availableWidth = width - spacing * (columns - 1);
+        final double cardWidth =
+            (availableWidth / columns).clamp(0.0, width).toDouble();
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          alignment: columns == 1 ? WrapAlignment.center : WrapAlignment.start,
+          children: stats.asMap().entries.map((entry) {
+            return SizedBox(
+              width: cardWidth,
+              child: _StatCard(
+                title: entry.value['title'],
+                value: entry.value['value'],
+                suffix: entry.value['suffix'],
+                icon: entry.value['icon'],
+                isDark: isDark,
+                index: entry.key,
+              ),
+            );
+          }).toList(),
         );
-      }).toList(),
+      },
     );
   }
 }

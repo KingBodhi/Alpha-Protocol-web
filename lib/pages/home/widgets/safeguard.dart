@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../controllers/theme_controller.dart';
 import '../../../theme/colors.dart';
@@ -38,9 +39,7 @@ class Safeguard extends StatelessWidget {
                   letterSpacing: 2,
                 ),
                 textAlign: TextAlign.center,
-              )
-                  .animate()
-                  .fadeIn(duration: 600.ms),
+              ).animate().fadeIn(duration: 600.ms),
 
               const SizedBox(height: 8),
 
@@ -54,9 +53,7 @@ class Safeguard extends StatelessWidget {
                   color: AppColors.primary,
                 ),
                 textAlign: TextAlign.center,
-              )
-                  .animate()
-                  .fadeIn(duration: 600.ms, delay: 100.ms),
+              ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
               SizedBox(height: isDesktop ? 64 : 40),
 
@@ -207,24 +204,24 @@ class _StepCardState extends State<_StepCard> {
             // Platform Icons
             if (widget.showPlatforms) ...[
               const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 32,
+                runSpacing: 12,
                 children: [
                   _PlatformIcon(
                     icon: Icons.apple,
                     label: 'macOS',
                     isDark: widget.isDark,
                   ),
-                  const SizedBox(width: 32),
                   _PlatformIcon(
                     icon: Icons.window,
                     label: 'Windows',
                     isDark: widget.isDark,
                   ),
-                  const SizedBox(width: 32),
                   _PlatformIcon(
-                    icon: Icons.android,
-                    label: 'Android',
+                    icon: FontAwesomeIcons.linux,
+                    label: 'Linux',
                     isDark: widget.isDark,
                   ),
                 ],

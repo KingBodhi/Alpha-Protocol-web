@@ -41,9 +41,7 @@ class CommunitySection extends StatelessWidget {
                     letterSpacing: 4,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 const SizedBox(height: 12),
 
@@ -53,86 +51,11 @@ class CommunitySection extends StatelessWidget {
                     color: AppColors.textMuted(isDark),
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
                 SizedBox(height: isDesktop ? 48 : 32),
 
-                // Community Links Grid
-                isDesktop
-                    ? Row(
-                        children: [
-                          Expanded(
-                            child: _CommunityCard(
-                              icon: Icons.discord,
-                              title: 'Discord',
-                              description: 'Chat with the team and community',
-                              stat: '15K+ members',
-                              color: const Color(0xFF5865F2),
-                              isDark: isDark,
-                              index: 0,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: _CommunityCard(
-                              icon: Icons.forum_outlined,
-                              title: 'Forum',
-                              description: 'Long-form discussions & RFCs',
-                              stat: null,
-                              color: AppColors.primary,
-                              isDark: isDark,
-                              index: 1,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: _CommunityCard(
-                              icon: Icons.code,
-                              title: 'GitHub',
-                              description: 'Open source repos & issues',
-                              stat: '2.5K+ stars',
-                              color: const Color(0xFF333333),
-                              isDark: isDark,
-                              index: 2,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          _CommunityCard(
-                            icon: Icons.discord,
-                            title: 'Discord',
-                            description: 'Chat with the team and community',
-                            stat: '15K+ members',
-                            color: const Color(0xFF5865F2),
-                            isDark: isDark,
-                            index: 0,
-                          ),
-                          const SizedBox(height: 12),
-                          _CommunityCard(
-                            icon: Icons.forum_outlined,
-                            title: 'Forum',
-                            description: 'Long-form discussions & RFCs',
-                            stat: null,
-                            color: AppColors.primary,
-                            isDark: isDark,
-                            index: 1,
-                          ),
-                          const SizedBox(height: 12),
-                          _CommunityCard(
-                            icon: Icons.code,
-                            title: 'GitHub',
-                            description: 'Open source repos & issues',
-                            stat: '2.5K+ stars',
-                            color: const Color(0xFF333333),
-                            isDark: isDark,
-                            index: 2,
-                          ),
-                        ],
-                      ),
+                _CommunityGrid(isDark: isDark),
 
                 SizedBox(height: isDesktop ? 48 : 32),
 
@@ -141,6 +64,93 @@ class CommunitySection extends StatelessWidget {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+const List<_CommunityLink> _communityLinks = [
+  _CommunityLink(
+    icon: Icons.discord,
+    title: 'Discord',
+    description: 'Chat with the team and community',
+    stat: '15K+ members',
+    color: Color(0xFF5865F2),
+  ),
+  _CommunityLink(
+    icon: Icons.forum_outlined,
+    title: 'Forum',
+    description: 'Long-form discussions & RFCs',
+    stat: null,
+    color: AppColors.primary,
+  ),
+  _CommunityLink(
+    icon: Icons.code,
+    title: 'GitHub',
+    description: 'Open source repos & issues',
+    stat: '2.5K+ stars',
+    color: Color(0xFF333333),
+  ),
+];
+
+class _CommunityLink {
+  const _CommunityLink({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.color,
+    this.stat,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+  final String? stat;
+  final Color color;
+}
+
+class _CommunityGrid extends StatelessWidget {
+  const _CommunityGrid({required this.isDark});
+
+  final bool isDark;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        int columns;
+        if (width >= 960) {
+          columns = 3;
+        } else if (width >= 620) {
+          columns = 2;
+        } else {
+          columns = 1;
+        }
+
+        const spacing = 20.0;
+        final usableWidth = width - spacing * (columns - 1);
+        final cardWidth = columns == 1 ? width : usableWidth / columns;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: 20,
+          alignment: WrapAlignment.center,
+          children: _communityLinks.asMap().entries.map((entry) {
+            return SizedBox(
+              width: cardWidth,
+              child: _CommunityCard(
+                icon: entry.value.icon,
+                title: entry.value.title,
+                description: entry.value.description,
+                stat: entry.value.stat,
+                color: entry.value.color,
+                isDark: isDark,
+                index: entry.key,
+              ),
+            );
+          }).toList(),
         );
       },
     );
@@ -188,9 +198,8 @@ class _CommunityCardState extends State<_CommunityCard> {
             color: AppColors.card(widget.isDark),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: _isHovered
-                  ? widget.color
-                  : AppColors.border(widget.isDark),
+              color:
+                  _isHovered ? widget.color : AppColors.border(widget.isDark),
             ),
             boxShadow: _isHovered
                 ? [
@@ -229,8 +238,9 @@ class _CommunityCardState extends State<_CommunityCard> {
                       children: [
                         Text(
                           widget.title,
-                          style: AppTypography.titleMedium(isDark: widget.isDark)
-                              .copyWith(
+                          style:
+                              AppTypography.titleMedium(isDark: widget.isDark)
+                                  .copyWith(
                             color: _isHovered ? widget.color : null,
                           ),
                         ),
@@ -247,7 +257,8 @@ class _CommunityCardState extends State<_CommunityCard> {
                             ),
                             child: Text(
                               widget.stat!,
-                              style: AppTypography.labelSmall(isDark: widget.isDark)
+                              style: AppTypography.labelSmall(
+                                      isDark: widget.isDark)
                                   .copyWith(
                                 color: widget.color,
                                 fontSize: 11,
@@ -279,9 +290,7 @@ class _CommunityCardState extends State<_CommunityCard> {
           ),
         ),
       ),
-    )
-        .animate()
-        .fadeIn(
+    ).animate().fadeIn(
           duration: 600.ms,
           delay: (150 * widget.index).ms,
         );
@@ -334,7 +343,7 @@ class _GrantsCTAState extends State<_GrantsCTA> {
                       color: AppColors.primary.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.rocket_launch_outlined,
                       color: AppColors.primary,
                       size: 32,
@@ -357,7 +366,8 @@ class _GrantsCTAState extends State<_GrantsCTA> {
                         Text(
                           'Get funded to build on Alpha Protocol. Grants range from '
                           '\$5K to \$100K for impactful projects.',
-                          style: AppTypography.bodyMedium(isDark: widget.isDark),
+                          style:
+                              AppTypography.bodyMedium(isDark: widget.isDark),
                         ),
                       ],
                     ),
@@ -378,7 +388,7 @@ class _GrantsCTAState extends State<_GrantsCTA> {
                       color: AppColors.primary.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.rocket_launch_outlined,
                       color: AppColors.primary,
                       size: 28,
@@ -408,8 +418,6 @@ class _GrantsCTAState extends State<_GrantsCTA> {
                 ],
               ),
       ),
-    )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 500.ms);
+    ).animate().fadeIn(duration: 600.ms, delay: 500.ms);
   }
 }

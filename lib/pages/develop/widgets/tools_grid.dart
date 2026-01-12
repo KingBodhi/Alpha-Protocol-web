@@ -41,9 +41,7 @@ class ToolsGrid extends StatelessWidget {
                     letterSpacing: 4,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms),
+                ).animate().fadeIn(duration: 600.ms),
 
                 const SizedBox(height: 12),
 
@@ -53,9 +51,7 @@ class ToolsGrid extends StatelessWidget {
                     color: AppColors.textMuted(isDark),
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms),
+                ).animate().fadeIn(duration: 600.ms, delay: 100.ms),
 
                 SizedBox(height: isDesktop ? 64 : 40),
 
@@ -70,7 +66,7 @@ class ToolsGrid extends StatelessWidget {
   }
 
   Widget _buildGrid(bool isDark, bool isDesktop, bool isTablet) {
-    final tools = [
+    const tools = [
       _ToolData(
         icon: Icons.terminal,
         title: 'CLI',
@@ -275,7 +271,8 @@ class _ToolCardState extends State<_ToolCard> {
               // Title
               Text(
                 widget.data.title,
-                style: AppTypography.titleMedium(isDark: widget.isDark).copyWith(
+                style:
+                    AppTypography.titleMedium(isDark: widget.isDark).copyWith(
                   letterSpacing: 1,
                   color: _isHovered ? AppColors.primary : null,
                 ),
@@ -287,7 +284,8 @@ class _ToolCardState extends State<_ToolCard> {
               Expanded(
                 child: Text(
                   widget.data.description,
-                  style: AppTypography.bodySmall(isDark: widget.isDark).copyWith(
+                  style:
+                      AppTypography.bodySmall(isDark: widget.isDark).copyWith(
                     height: 1.4,
                   ),
                 ),
@@ -310,9 +308,7 @@ class _ToolCardState extends State<_ToolCard> {
           ),
         ),
       ),
-    )
-        .animate()
-        .fadeIn(
+    ).animate().fadeIn(
           duration: 600.ms,
           delay: (100 * widget.index).ms,
         );
@@ -338,9 +334,8 @@ class _ToolCardMobile extends StatelessWidget {
         color: AppColors.card(isDark),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: data.isHighlighted
-              ? AppColors.primary
-              : AppColors.border(isDark),
+          color:
+              data.isHighlighted ? AppColors.primary : AppColors.border(isDark),
         ),
       ),
       child: Row(
@@ -386,8 +381,8 @@ class _ToolCardMobile extends StatelessWidget {
                         ),
                         child: Text(
                           data.tag!,
-                          style: AppTypography.labelSmall(isDark: isDark)
-                              .copyWith(
+                          style:
+                              AppTypography.labelSmall(isDark: isDark).copyWith(
                             fontSize: 10,
                             color: data.isHighlighted
                                 ? AppColors.primary

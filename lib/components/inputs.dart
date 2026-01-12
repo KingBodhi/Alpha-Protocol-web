@@ -125,8 +125,9 @@ class _AppTextFieldState extends State<AppTextField> {
                 boxShadow: _isFocused
                     ? [
                         BoxShadow(
-                          color: (hasError ? AppColors.error : AppColors.primary)
-                              .withOpacity(0.15),
+                          color:
+                              (hasError ? AppColors.error : AppColors.primary)
+                                  .withValues(alpha: 0.15),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -171,21 +172,20 @@ class _AppTextFieldState extends State<AppTextField> {
                         )
                       : null,
                   filled: true,
-                  fillColor: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+                  fillColor:
+                      isDark ? AppColors.darkSurface : AppColors.lightSurface,
                   border: OutlineInputBorder(
                     borderRadius: AppSpacing.borderRadius,
                     borderSide: BorderSide(
-                      color: hasError
-                          ? AppColors.error
-                          : AppColors.border(isDark),
+                      color:
+                          hasError ? AppColors.error : AppColors.border(isDark),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: AppSpacing.borderRadius,
                     borderSide: BorderSide(
-                      color: hasError
-                          ? AppColors.error
-                          : AppColors.border(isDark),
+                      color:
+                          hasError ? AppColors.error : AppColors.border(isDark),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -198,7 +198,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   disabledBorder: OutlineInputBorder(
                     borderRadius: AppSpacing.borderRadius,
                     borderSide: BorderSide(
-                      color: AppColors.border(isDark).withOpacity(0.5),
+                      color: AppColors.border(isDark).withValues(alpha: 0.5),
                     ),
                   ),
                 ),
@@ -438,7 +438,7 @@ class _NewsletterSignupState extends State<NewsletterSignup> {
           return Container(
             padding: AppSpacing.allMd,
             decoration: BoxDecoration(
-              color: AppColors.success.withOpacity(0.1),
+              color: AppColors.success.withValues(alpha: 0.1),
               borderRadius: AppSpacing.borderRadius,
               border: Border.all(color: AppColors.success),
             ),

@@ -27,7 +27,7 @@ class Footer extends StatelessWidget {
             color: AppColors.background(isDark),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 10,
                 offset: const Offset(0, -2),
               ),
@@ -127,10 +127,7 @@ class _SocialLinks extends StatelessWidget {
           tooltip: 'Instagram',
         ),
       ],
-    )
-        .animate()
-        .fadeIn(duration: 600.ms)
-        .slideY(begin: 0.2, end: 0);
+    ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.2, end: 0);
   }
 }
 

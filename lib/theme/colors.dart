@@ -157,7 +157,7 @@ class AppColors {
   /// Light theme shadow
   static List<BoxShadow> lightShadow = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.08),
+      color: Colors.black.withValues(alpha: 0.08),
       blurRadius: 16,
       offset: const Offset(0, 4),
     ),
@@ -166,7 +166,7 @@ class AppColors {
   /// Dark theme shadow (subtle glow)
   static List<BoxShadow> darkShadow = [
     BoxShadow(
-      color: primary.withOpacity(0.1),
+      color: primary.withValues(alpha: 0.1),
       blurRadius: 20,
       offset: const Offset(0, 4),
     ),
@@ -175,7 +175,7 @@ class AppColors {
   /// Gold glow effect
   static List<BoxShadow> goldGlow = [
     BoxShadow(
-      color: primary.withOpacity(0.3),
+      color: primary.withValues(alpha: 0.3),
       blurRadius: 20,
       spreadRadius: 2,
     ),
@@ -209,8 +209,10 @@ class AppColors {
   static Color divider(bool isDark) => isDark ? darkDivider : lightDivider;
 
   /// Get shadow based on theme
-  static List<BoxShadow> shadow(bool isDark) => isDark ? darkShadow : lightShadow;
+  static List<BoxShadow> shadow(bool isDark) =>
+      isDark ? darkShadow : lightShadow;
 
   /// Get muted text color based on theme
-  static Color textMuted(bool isDark) => isDark ? darkTextMuted : lightTextMuted;
+  static Color textMuted(bool isDark) =>
+      isDark ? darkTextMuted : lightTextMuted;
 }
