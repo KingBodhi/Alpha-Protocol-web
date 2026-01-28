@@ -5,7 +5,7 @@ const ecosystemProjects = [
   { id: "omega", name: "Omega Wireless", url: "https://omega-wireless.vercel.app", color: "#f97316" },
   { id: "vibertas", name: "Vibertas", url: "https://vibertas-os.vercel.app", color: "#eab308" },
   { id: "vibe", name: "VIBE Token", url: "https://vibe-token.vercel.app", color: "#22c55e" },
-  { id: "pythia", name: "Pythia AI", url: "https://pythia-ai.vercel.app", color: "#3b82f6" },
+  { id: "pythia", name: "Pythia AI", url: "https://pythia-ai-web.vercel.app", color: "#3b82f6" },
   { id: "spectrum", name: "Spectrum Galactic", url: "https://spectrum-galactic.vercel.app", color: "#8b5cf6" },
 ];
 
@@ -83,6 +83,11 @@ export default function Footer() {
           <div>
             <h3 className="text-[var(--text-primary)] font-semibold mb-4">Backed By</h3>
             <ul className="space-y-2">
+              <li>
+                <a href="https://powerclubglobal.com" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--text-muted)] hover:text-[var(--gold)] transition-colors">
+                  PowerClub Global
+                </a>
+              </li>
               <li>
                 <a href="https://okb-ventures.vercel.app" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--text-muted)] hover:text-[var(--sovereign-gold)] transition-colors">
                   OKB Ventures
