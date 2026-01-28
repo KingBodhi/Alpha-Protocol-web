@@ -6,21 +6,21 @@ const betaProducts = [
     tagline: "Mobile VPN + Rewards",
     description: "Secure mobile browsing with built-in Bitcoin rewards for your bandwidth contribution.",
     url: "#",
-    color: "#1e40af",
+    color: "#dc2626",
   },
   {
     name: "Omega Wireless",
     tagline: "Hardware Mesh Nodes",
     description: "Deploy physical mesh network nodes and earn passive income.",
-    url: "https://www.omegawireless.xyz",
-    color: "#00aaff",
+    url: "https://omega-wireless.vercel.app",
+    color: "#f97316",
   },
   {
     name: "Spectrum Galactic",
     tagline: "Satellite Global Reach",
     description: "Global satellite connectivity bringing Alpha Protocol to every corner of Earth.",
     url: "https://spectrum-galactic.vercel.app",
-    color: "#00d4ff",
+    color: "#8b5cf6",
   },
 ];
 
@@ -212,14 +212,14 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 bg-[var(--bg-surface)]">
         <div className="max-w-4xl mx-auto">
           <div className="card p-8 sm:p-12 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--vibe-primary)]/10 via-transparent to-[var(--alpha-primary)]/10" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#22c55e]/10 via-transparent to-[var(--alpha-primary)]/10" />
 
             <div className="relative z-10">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--vibe-primary)] to-amber-600 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-[#22c55e] flex items-center justify-center">
                   <span className="text-xl font-bold text-black">V</span>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-[var(--vibe-primary)]/20 text-[var(--vibe-primary)] text-xs tracking-wider font-medium">
+                <span className="px-3 py-1 rounded-full bg-[#22c55e]/20 text-[#22c55e] text-xs tracking-wider font-medium">
                   ECOSYSTEM TOKEN
                 </span>
               </div>
@@ -227,7 +227,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-3xl font-light text-[var(--text-primary)] tracking-widest mb-2 text-center">
                 TRADE
               </h2>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-[0.2em] mb-6 text-center bg-gradient-to-r from-[var(--vibe-primary)] to-amber-600 bg-clip-text text-transparent">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-[0.2em] mb-6 text-center text-[#22c55e]">
                 VIBE TOKENS
               </h3>
 
@@ -237,7 +237,7 @@ export default function Home() {
 
               <div className="grid grid-cols-3 gap-4 mb-8">
                 <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-default)] text-center">
-                  <p className="text-2xl font-bold text-[var(--vibe-primary)]">$0.001</p>
+                  <p className="text-2xl font-bold text-[#22c55e]">$0.001</p>
                   <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Current Price</p>
                 </div>
                 <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-default)] text-center">
@@ -245,7 +245,7 @@ export default function Home() {
                   <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Total Supply</p>
                 </div>
                 <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-default)] text-center">
-                  <p className="text-2xl font-bold text-[var(--signal-green)]">LIVE</p>
+                  <p className="text-2xl font-bold text-[#22c55e]">LIVE</p>
                   <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Status</p>
                 </div>
               </div>
@@ -255,7 +255,7 @@ export default function Home() {
                   href="https://vibe-token.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-4 bg-gradient-to-r from-[var(--vibe-primary)] to-amber-600 rounded-xl font-semibold text-black transition-all shadow-lg"
+                  className="px-8 py-4 bg-[#22c55e] hover:bg-[#16a34a] rounded-xl font-semibold text-black transition-all"
                 >
                   Buy VIBE Tokens
                 </a>
@@ -263,7 +263,7 @@ export default function Home() {
                   href="https://vibe-token.vercel.app/tokenomics"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-4 border border-[var(--vibe-primary)]/30 rounded-xl font-semibold text-[var(--vibe-primary)] hover:bg-[var(--vibe-primary)]/10 transition-all"
+                  className="px-8 py-4 border border-[#22c55e]/30 rounded-xl font-semibold text-[#22c55e] hover:bg-[#22c55e]/10 transition-all"
                 >
                   View Tokenomics
                 </a>
