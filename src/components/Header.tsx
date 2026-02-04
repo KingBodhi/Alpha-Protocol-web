@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "Download", href: "/download" },
   { label: "Learn", href: "/learn" },
   { label: "Develop", href: "/develop" },
   { label: "Roadmap", href: "/roadmap" },
@@ -221,7 +222,7 @@ export default function Header() {
 
           {/* CTA */}
           <div className="flex items-center gap-4">
-            <Link href="/learn" className="btn-primary text-sm">
+            <Link href="/download" className="btn-primary text-sm">
               Download
             </Link>
           </div>
@@ -340,7 +341,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/learn"
+              href="/download"
               onClick={() => setMobileMenuOpen(false)}
               className="block btn-primary text-center mt-4"
             >

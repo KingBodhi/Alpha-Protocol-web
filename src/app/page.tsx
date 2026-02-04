@@ -81,7 +81,7 @@ export default function Home() {
             ALPHA PROTOCOL IS A DECENTRALIZED WEB SOLUTION WITH BITCOIN INCENTIVES
           </p>
           <Link
-            href="/learn"
+            href="/download"
             className="btn-primary inline-flex items-center gap-3"
           >
             <span>Download for Your Platform</span>
@@ -187,7 +187,7 @@ export default function Home() {
               <p className="text-[var(--text-secondary)] mb-8">
                 Real-time statistics from the Alpha Protocol decentralized network.
               </p>
-              <Link href="/learn" className="btn-primary">
+              <Link href="/download" className="btn-primary">
                 Download Now
               </Link>
             </div>
@@ -286,7 +286,7 @@ export default function Home() {
             Be part of the decentralized future. Contribute to the network, earn rewards, and help build a more private and secure internet for everyone.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/learn" className="btn-primary">
+            <Link href="/download" className="btn-primary">
               Get Started
             </Link>
             <Link href="/develop" className="btn-secondary">
